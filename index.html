@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kick Auto Commenter x3</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      padding: 30px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    textarea, input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      resize: none;
+      overflow-y: hidden;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px 0 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .startBtn {
+      background-color: #2ecc71;
+      color: white;
+    }
+    .stopBtn {
+      background-color: #e74c3c;
+      color: white;
+    }
+    .log {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  
+
+  <h2>🎯 Freeze </h2>
+
+  <!-- 3 نسخ مستقلة -->
+  <div id="commenter1" class="container"></div>
+  <div id="commenter2" class="container"></div>
+  <div id="commenter3" class="container"></div>
+
+
+  <script>
+    function createCommenter(containerId, instanceId) {
+      const container = document.getElementById(containerId);
+
+      container.innerHTML = `
+        <h3> ${instanceId}</h3>
+
+        <label>🎫 Bearer Tokens (واحد بكل سطر)</label>
+        <textarea id="tokens_${instanceId}" rows="1" placeholder="...">Bearer 130503970|QCCwlVMaeRWgrD3EWmoVJ6VHX1Knel3ue8b3mOma 
+Bearer 126654372|AkrZyojek5cPna0glWFzXW7yZ4upq7n6zpSxCRzf 
+Bearer 126654575|68XtmmKqg4JAeOsF4mmE1B7rBMCmNipjWXtVPFqC 
+Bearer 126654658|kQ8MTpIH7LIAsETvyLchRIyWC561I3A226hY7cxw 
+Bearer 130506362|OqQW0Rfe4BOZeVMwv7q7ydE6BXaeHtfsnz5EbasA 
+Bearer 130505826|l0K9iwVx0aRFvPO2Y4pQKZ8YtZc2eYvyQD3k3fXt 
+Bearer 130503428|iz7Wi5FLnanaSQ3s8uF9aijO07Hc86GCakEuGif7 
+Bearer 130502045|X0Ge6NyeJN0PFDc217vUSwQBTck86ctbxC3IpnkY 
+Bearer 130502732|qGOAaRi7X0mmEMWxoJe15spXEQmRTXrz24CvnQRp 
+Bearer 130504677|Jqnc0BDyPqPjgfJZsSJaMkyxIpE9xlwAhOvmmQBS 
+Bearer 130500309|yGk8akXLRGH1fgK81275e1dRuGNAbORQPm8DGcvL 
+Bearer 130497653|ud96QAZSe2xuviE8nObWU59vs2vFX8NWLjwEAxSK 
+Bearer 130500946|A7BZz03bMQPiYRSvvTTNvY4ZxoHOzEz8OGJfngVo 
+Bearer 130498267|ACnjDFiHSZ4h5qFQ4PA8MxHAc0Y2YrG0aHJEeLX1 
+Bearer 130494197|Ugj8JsQN94kxkngC0eUyydBbXvvuPET5XDTtPXEL 
+Bearer 130501511|VKgR2fLWEkJLaKQMYTfHWjm2AymeBxqJsVNMQLHX 
+Bearer 130495048|JqQIk3IfEpSotoGKtwAySCxgp0rNBOBUBfV5GAX3 
+Bearer 130493534|GRgwGivOCQ1hUizZ1IApXCA0SBe41LQx4AbWn5sR 
+Bearer 130491821|54z5v8wJcXSFdoCT3Z56eWSFQtbSbc6ppREPTeUg 
+Bearer 130492573|pOTBl4TBNiaKDD4OBhq2SA8S2vXU5ujNfB38wUWH 
+Bearer 130495579|1v6lmzzraFtH9OSYKbHyg233N7HtNOdlq0MTr656 
+Bearer 130490179|Xg4RJbGwpZtJp2MvDAUaRlQkpYISCO4kcpoJUaVi 
+Bearer 130491156|JXdayZK240uOwgqS1c7z1XvON4bLzbqb2XskKLox 
+Bearer 130487017|n9Uo2ymY4kpt8FyyJ96aYlGKpuGrrzjJaMm4D8Z9 
+Bearer 130489149|G6NJbndWDBaTCeANc8PipXuRqG3athdjrWnh6aXT 
+Bearer 130489792|upk1TIIl9P8Metyvmp3aoSJZnChhk2AIGsiojeD0 
+Bearer 130490523|4TevZmW6VdC41OStYP339oDkImFYuHNeJtLBSate 
+Bearer 130488068|mfF8H8Dh1zfjXPG9Ix6jPwVAx8Y2nhVjcEXU8gaD 
+Bearer 130488493|qnv8t4OEtYkLEAPH4s00DCnkH0uS6iKYQOkPOsEJ 
+Bearer 130487532|t7nDJqfUOpgzYf26o3zOzvGLlRXsbd3y7TCXsrce 
+Bearer 130485866|A4aNaMFERHWKJn81NhT6I6AObAgAzwW9tyFeWBJG 
+Bearer 130484726|Xy2OLGGzNYz8TKjFoES75CUWxWUJzNCTrtMYqqo9 
+Bearer 130485450|55CHK96WFr0SeoKN2YPm8aJsgLOo4JXXzgL7Qjpp 
+Bearer 130484019|FcCp5E0baBbq6oKHdKXahPVhx8N1AoRtEKPZxJ5x 
+Bearer 130484350|SufYMVrlWP445j2ENkmIfhbCnyDWuJ7AtWEVFhla 
+Bearer 130485111|xIZeFkhymbLazj4aSCecpGUuMR2HqR9DKbnteqHr 
+Bearer 130486547|Z7Lv5BPo4vhCJG6ZFdn2vHnmzYADNPRh1gP0TYj0 
+Bearer 130483699|eOv8GFEC9VykXhqM4SyHXm0UKmnQjWL6lrF3ERtt 
+Bearer 130483134|oj6Q7CFRHajaEN6OrN9gpiNXiv5xE0UXCfr8a7O1 
+Bearer 130482852|FLa4e9uzrTULhFs18uk7NL4114mfnNr5P0svXnBq 
+Bearer 130483401|2gfZdyYe9WdYRVaNI1v5rDTQjwQZ0d0LvwfvsfFx 
+Bearer 130478567|q0kDMdbyx9EmNiZ0O2zdBjpIoGJnmytdSXTiPAg3 
+Bearer 130479586|lcN0xjEfI6RCoYVl8X54VXiKr7sMNawLjn91fmV0 
+Bearer 130480182|x9WIHar7acspe21saPOTqr7yOvjihyKqpjGrHaG1 
+Bearer 130482001|8djJ30LGukbRk9D9lNCnhMjqfBNDRw0HWdWcePCk 
+Bearer 130477935|fIfhFUgnhNMM1819YAZXn3ANBbwJEm6yIyOguwhC 
+Bearer 130482397|fPbDyRkdViYFiUV2QDskkQ98OE0h659xg21Pg3n4 
+Bearer 129024648|nGAkutqCMEleNNuvbDAgOWlPknfHUALvmvEeLzzu 
+Bearer 129025814|N5CHWcR2HeVrz854xej97H4neLFSqdAGXTthZuoX 
+Bearer 129024293|fm6m6FUoi606G4i5SutVb5BAF5OoV5lavGZZHC0o
+Bearer 126566483|i1S0ICIqi5qXf6JMIPRk6AnqipmkvnXC3O6NaDUd 
+Bearer 126564394|9lR57XztfWv4nmDRAUqCcr5yTy94BglhE5vWtd3Q 
+Bearer 126562769|WVcz2tV9io2WUpxQkPoh9QJ7EYtnV6ilIVjNwFrz 
+Bearer 126565190|wZxpkkm0dXPtJFjbAY6tzACavaJ3Ajhdia1oUjbl 
+Bearer 126565647|w1Haxt1wxLWJNegIng4xEiLTwHpiRVbIAUzA6g5C 
+Bearer 126555225|BaAGeatWSb6edadiu5WNr4tW3vgtDFG8QGmKtrdE 
+Bearer 126568903|q9ceuZaiRF1K6E7uoxpJxJKAWCeysQx1akc4VH2R 
+Bearer 126568118|ss3HzPtFTEDGEkMbo22osBByysRxPQbRkq7m2Xdc 
+Bearer 126554484|AtTaTUw7Bb08J7b81oO9gg534yq9jot8I5BIKgNZ 
+Bearer 126559158|q4ODb3gr9psVrEkgcywuMy7HjDoO8GrE2JXiSN7Y 
+Bearer 126561388|qIABGO7QfcDdmaFhXQVvZLRX1Tdwp6GyZQD8so0I 
+Bearer 126556030|SCBlW1pqaY4eGNr8aUlwh4EYeYJufRqcGBpjpkVA 
+Bearer 126557164|Uoe2p8PgelpxwiyvfxpdU00AWT4jP2xMNNWMUtsb 
+Bearer 126559806|UVym1emqNUauTB3dcd8mH4sSOBE05iisfOn63CED 
+Bearer 126560762|QCqnmtBYpHMvb29px1cIiMrHX0V8uMMHxyOFjj2m 
+Bearer 126547019|80SGLTkgUT20nBYRis3nA6uEFUY4wwTPdDP8K18h 
+Bearer 126577931|ZMwY8LLa1DMLIWk5H5fgpMXtzrDfBwX0YTRlkK9Y 
+Bearer 126544883|pk7ReXZQVrVEAh1vhZJlD8QI9ONxCqY0BAnEOCHE 
+Bearer 126536104|mjzL7gHar1faliYeCQHGKqbg3wo7zFaG7bhHjofP
+Bearer 126535036|aSwVOHC4GvqrPNNH75LYIekiiEXZ578GwqZr5YCk 
+Bearer 126533143|B4l3kCv8hivoU0Ltl0LZvrbyLoEdewNdpWIXN2L4 
+Bearer 126531799|uTfMzZXquiLHSWOi1P48EjonEOgUIBvpPClnsdWl 
+Bearer 126538397|MqOiUshAL3hWL32jzykBwXfJBMagjaEGjE1oLxOU 
+Bearer 126458784|MK9gFHbuWsy9ylPqgKRuZDsTJ47PSr13xScrThn3 
+Bearer 126537056|uEzHNKVEGpxBHbqNEb7hkfAIAIY8CnM2DtHbIbvv 
+Bearer 126461121|laed29U1cYXSPrTjMIUyyUdNPoRiO8zb8n8IBkhD 
+Bearer 126452633|IHm3UkWd0UTGGkvjs0fxsgQwwsS1YbfMKZJW01Gx 
+Bearer 126466571|7MGOeuRPVpxSEGLOw5zUiO5xYnnVadC5yfY1dZFk 
+Bearer 126455261|Fx0oesCNKhERulhZIuwG3sxElw0YYf6NEl573oJb 
+Bearer 126463125|UXb5js6mdp85wuVGi52mjps7R861RPVUD8ws5txK 
+Bearer 126451340|R26RpXDCbCrUmWugglxdxkVMNf8HMgvYE4HOrjhI 
+Bearer 126444413|YUEKcc3H53hYEvUhWhdtYzbtepEtjFeuUNMbPglp 
+Bearer 126442948|PdBTGRHJ1fneqbtXJYxr11iwnDgBc8SuoLV5fv0n 
+Bearer 126449864|oN6Se9jkI3K6YnvHERXLvnF8aaX0P0W86CpiO68d 
+Bearer 126446745|XkVBkMBZrPO42XMcmnJfXMqm2NOlTqPT1p3H6DPi 
+Bearer 126441996|4FXGQYIp54XqDK1OVd1kEoaRuVUkDD6Dw0y65zld 
+Bearer 126448594|chUS8iN5tWRsBaa4uk73V9stsUgVDOsQYX7HNyjo 
+Bearer 126570737|EkVtHOOV8Iev1elFMUrzBGVfTOBYkmPoOCplhPkQ 
+Bearer 126438753|EMZPUpeA7ocAXC0eysEt0VJCmiPMASnkow8Kr45t 
+Bearer 126440925|GQqj2ExYSIx4GNEZK5mz285tNqfqY7LUIYTMgee6 
+Bearer 126462332|X2cKeTZlkKSe2aTovOoYyGoOBsF6myyGdubQKg6B 
+Bearer 126467330|o912DJbTdMrd7fZaa323NoAylesRjK30BjBbZX2m 
+Bearer 126439856|PVHplVUbqTLJkA8KXvHhWcUCAL54WyJUwAi0cgTd 
+Bearer 126435653|nOtyMqxv5cA1j9zu8bU4XWjTnrCTsEocTiJLVcef 
+Bearer 126424873|0gw9mvjBe68lS2PDOwwowXxRDktXNFAPhtbgBbDD 
+Bearer 126422906|93b8BaqgAugXF6GOkelQuFWXTgvZuiPo7nFBC0Lv 
+Bearer 126431080|9SWiSc4TK3BNo0Yn2ILZKgxi1KsV2zRNxZhHsXqw 
+Bearer 126414603|lJ16qLaQiVcVcWr8sZf65SgEJOoKmzdsYCe8tIwY 
+Bearer 126412620|mcvX0Slq0v1z8qHjovBtR1N3pcnSwpKBOP8HubBX 
+Bearer 126433636|BOJZe1keqQmOqvAOcPZ9xwBDbERhSvQoRkruwkGN 
+Bearer 126437007|dLWwO1oiqG3gS7jYDuScAkhwSH6ClUL6gox86RZZ 
+Bearer 126411045|C8Q2Z9mrQCbEfx81xoPe2bjoM8bZ22MnwkvaHYQd 
+Bearer 126409624|yauOQJEfMYFVKc3tPdW1Y3tlIf3A27O4wEWbPErq 
+Bearer 126043030|NJ7GUbkZMrpgjArUVwNRtm12QnsjzaHH8OAEaHuG 
+Bearer 126043494|nf9XH60Qe4kELKMRLFDuaqvVl6iTa4NnQgBLIZM7 
+Bearer 126042622|81iCetvgmroSIG1MwOrchIdALPDBRTJHWq2rDHtj 
+Bearer 126041024|uG8DBSMZxGNB4GOKZfLxtxQAUbjEOQqA6lpLZSXj 
+Bearer 126041387|EaRD8vFfaqc1tfrFM64gW7tKw4YfsZcx3b0Ld585 
+Bearer 126040143|CHUQGL0yFQp5DqbXIISQAhhcpfsufmlSGqi3q3xz 
+Bearer 126040550|dY7XCvi3DO67bm5ISFQFoj36aXUXgn9Hdmg2Slvw 
+Bearer 126039954|4cZmDWH06lIKfjG2esjGYHZBPAzQwz0Pm52qAe9c 
+Bearer 126039343|oA460lxjG82lGdQP9j3xBfGGVXwciB0lVzABSS6u 
+Bearer 126039595|UbAHvIM4EXgWo3pgJpoqQFZqFpP9qiiJH82tU9ld 
+Bearer 126038340|o07HpwIj2XZD1VEUIdULMD5pGev4A4H5ZXsgjSfk 
+Bearer 126037920|9YBVOBqEOJWRJpN95iu0jBEmSG7UkHpY1vMm1it5 
+Bearer 126036249|joMaLo9xkgiGLfipkZdvZO1jB1ca9XhyVvpck7fx 
+Bearer 126035557|H6tCIEpDX5lla0vgG5e8F5qqePikwhEKOAgy0qAK 
+Bearer 126035016|krqKAAgjXozjTEPl0BRWzmdezEhvVJSIF13bnmqC 
+Bearer 126036609|CLCNbAm1VuNtQc5Eq89SFn8jhRNIW1kmhQCQj1nc 
+Bearer 126030866|PIMyzh9o9u5cPlSa5WJXVzKBdM4VBueQFFvdrZSg 
+Bearer 126033492|NbXiq6z89sQPvKmRzpA6WzBp0FesDqG4l2MYHzbs 
+Bearer 126032622|kVjyMtoSde0jfSwgBHj96Wl52Ed6F2Klo0ovOQmI 
+Bearer 126032233|5qQB43BpS12q6PxMdIxLzxzPd91Q2sYxUwlurp9i 
+Bearer 126030353|EhkRPhP7Qor3rOt3ED757XoQqk5nU70xO8ZzOpI0 
+Bearer 126028906|46DeXJTxF1sJsqfsTdWJWsa0llk438Kr8QoSiIJS 
+Bearer 126026418|AXqU47U7ZhyzzBpNsZSw8zxL0eHRDel14ttCgwAx 
+Bearer 126016624|bQ2RQuNy5WERUVPKIEtbTCOCicRyeTZxvCUsbxUO 
+Bearer 126027740|QW0svuAKkuQy4victVkFYBwll6sjrRInAWxieV04 
+Bearer 126029367|KZOXvu9IRg8l8PBcOaQTX0X1n97bVpyIPs22mf8o 
+Bearer 126025788|6gDWvgMcoKWMkLx18OLOljeejHMZUDyiKtMlesQj 
+Bearer 126029897|o5wCimNv9OXQzY2lJpuIWpT8Hti8AAp78JAGKCkm 
+Bearer 126013519|uDFoPoK59o3xvNKNZsLoVaV9LGT7wqB6GjPSk1Cs 
+Bearer 126028271|RYxDKHP3hreGh55jMW4CAD19sKUbHMvMXBVE5fKl 
+Bearer 126012358|PwrPFfwiE8Y3jjo7uF557OpvKzOwiHjLeMPSrTBv 
+Bearer 126014682|PUXMbgOirVRZ9HLWud4YxhHpZJnfN2r04ISyonu1 
+Bearer 126027005|iKd4tAQ22QYkIASMZ5KV3COm05ZbhrSBxtkrzxuZ 
+Bearer 126036967|4KF02zS3CoKlgSWvUruozQO9WhMsq2r2WxEQMX49
+Bearer 225528799|DB64TI9TE56r8moOJ47gR7UyjDTHDzBZC6SW8MeU
+Bearer 225529536|ocVtzrBqiidMNyL9Es4UZVK3bGHov6ZCJaa5Fz2e 
+Bearer 225529982|MijhiEYyNL0Rgk8q2ARzUC5l1hX6gAuyTVcLd05K 
+Bearer 225530935|Xux0pNGxKdF1jzeaXu26LAJZjTzki2kUMQ7n8QdG 
+Bearer 225531446|Uois2L6nUJ8A3L4WtleUiupB0dflScmDcZBnZmGV 
+Bearer 225531884|PYqfFb6EEWgkjT8xx2az6uMuQv6MkSpAiamkVAn5 
+Bearer 225532330|UYPXiGzyXyeimkNDDYjeWcHjCuXgTEvNki90QdBf 
+Bearer 225532800|9ThfxZEmHWRjvYjDF2n2joUWXcb91aeHcbLQ2NAR 
+Bearer 225533181|QzAdLxAloA6D0U8eM0R6n6nM2x8VtPfOhTavbu6j 
+Bearer 225533645|dw7be5BDcmyi8spj8kDg2sgcRCm9kYJC9A8dy1AL 
+Bearer 225534369|3RejhYsTlJok4tdKSB3gt9qNJ193qv0MZWUpq7ED 
+Bearer 225535126|5VCdgBdGLSe2Ll5zV4HoKaq0h3HwQAez4flb6EZ5 
+Bearer 225535996|HakdE5B9aE7VzlOPbG0GXyQGVKGA8RvwU5zahfYQ 
+Bearer 225538262|dXBX9uunnfwEz5lobjTb2tZersExFJz8PYwtPLaX 
+Bearer 225539311|vUdSkY8B4qrtOQgc1i5XcYlSXTs265NgT1c0zrVg 
+Bearer 225540062|86Hg2qowbDcJaUrFBpOx6ibIbohf7xlvMScNhGrh 
+Bearer 225541510|O4WwAMGeb1zaJgTW43JsQWj3kOFZl5EXB5wYVZcp 
+Bearer 225542235|rTjbLJVVduWVVZTZCcVZlTE8GZULh4XO9QajdqPR 
+Bearer 225542609|EbybWrKWgAFlA7WZcl0V00zNoM11hi4fN0QGxbi4 
+Bearer 225543190|9PNkVfRutRUnuOoCf3Bu64p2gdDKgo4ZvLUxYU7E 
+Bearer 225544084|GcZ0ulUen393ZQeQPMvE0ASw7OMJYIsgRjJznRBI 
+Bearer 225544703|EQNoAxs8UvlSlfOJW28uK9RFTovJlTulcaDxHzzd 
+Bearer 225545233|ZzYWkoEgJknfrqLutx0M3YVGqf0RcYI77INSTIHx 
+Bearer 225545819|BWYiI7eP3bAPX3UPcxMrTVqBPfj0I9r3xYRLmV4W 
+Bearer 225546231|CxOUt2K44prCAGk3fPdamx68NfJEbEJcM7OIfKDk 
+Bearer 225546948|czn8kfvM0vvPOQTZxOC9Bp6bwMBf1XT9SFzhBHdy 
+Bearer 225547654|jc04vFGl92Og1X7Ppt7vX685NOK6RJZRpxCfsUTP 
+Bearer 225548315|pKmo5EljTfeeQUpnJzU5Dc4NnhTxsFyw2qUvK51Q 
+Bearer 225549008|jjont4qN0NQFZhYMZstyPw1ropZcZZodn2HQ4sOM 
+Bearer 225549570|VD60Z3hzDlzOkC327QEc5zbxThCTcsxxh3HhwYM3 
+Bearer 225550141|VydIuVz3wnYVIuzT8zWQckgeOClsUWQMJqF3qOzQ 
+Bearer 225550677|zq5zmMBYaH9LIxhFiMWVmUFnque9oJkZTHOyggFt 
+Bearer 225551255|uh7p6MyYVxoimriVSlIaGNJPqRH0ZX3M5MZViCaI 
+Bearer 225551679|4nPIPdNgVl1tBVMgT67xtVU6S3XqUPYH4K8n2j9u 
+Bearer 225552321|TF3lgdk7QW8izkCQDjUux8Bbrhxx79lGvgFHUhyU 
+Bearer 225552919|UvK2vUrfoT5HC0ZHpIYcti0LCBAMRIizj3vhCaI3 
+Bearer 225553489|YUaMy9a2VRPLYloTAwlVKlbsotkTlY8sw0Un5hli 
+Bearer 225554050|PRc3V69POVnCMONx01iMA8urcCxFLUeHEb9Biqnj 
+Bearer 225554787|LoR6tMGwDUogs5BL8MtoKBoTXzd4kTCpwcNSMdQD 
+Bearer 225555483|9UtpfadNN7oH1xN2TsaY6sTk6umSrdnVaZ7Mdws3 
+Bearer 225555938|BMZyTiWMPQn0rIbGDLZAymFW7v6w4NSjUeu76a7j 
+Bearer 225556421|nEgsk5DemE0VHre2Y5EnInOcFNHTF3Rd7AEOqA6e 
+Bearer 225556961|2S5Ck8YXvSzOIV0iWo4lOuktuYlX2r5pSZcdn7Qf 
+Bearer 225557507|d07DjT7bZpVBP0Ys5wSGigS5MYFkZSvANM5G31kZ 
+Bearer 225558061|6wkm49wBRelRYZ6fYVEzKS43ernf3sLBORl1EOqK 
+Bearer 225558837|75PZpOai4sGXruN4gUAEItMvwpjnzDHA0F4n9CgY
+          </textarea>
+
+        <label>💬 Comments (واحد بكل سطر)</label>
+        <textarea id="comments_${instanceId}" rows="4" placeholder="منور البث\nتابعني و لايك 🔥"></textarea>
+
+        <label>📺 Channel Name</label>
+        <input type="text" id="channel_${instanceId}" placeholder="username" value="FreeZe" />
+
+        <label>⏱️ Delay Between Comments (seconds)</label>
+        <input type="number" id="interval" placeholder="السرعه" value="1" min="0.1" step="0.1" />
+
+        <button class="startBtn" onclick="start(${instanceId})">▶️ Start</button>
+        <button class="stopBtn" onclick="stop(${instanceId})">⛔ Stop</button>
+
+        <div id="log_${instanceId}" class="log"></div>
+      `;
+    }
+
+    // إنشاء 3 نسخ
+    createCommenter("commenter1", 1);
+    createCommenter("commenter2", 2);
+    createCommenter("commenter3", 3);
+
+    const state = {
+      1: { intervalId: null, isRunning: false, previousComments: {} },
+      2: { intervalId: null, isRunning: false, previousComments: {} },
+      3: { intervalId: null, isRunning: false, previousComments: {} }
+    };
+
+    function log(message, id) {
+      const div = document.getElementById(`log_${id}`);
+      div.innerHTML += `📝 ${message}<br>`;
+      div.scrollTop = div.scrollHeight;
+    }
+
+    function getRandomComment(comments, token, id) {
+      const prev = state[id].previousComments[token];
+      let available = comments;
+      if (prev) {
+        available = comments.filter(c => c !== prev);
+        if (available.length === 0) available = comments;
+      }
+      const comment = available[Math.floor(Math.random() * available.length)];
+      state[id].previousComments[token] = comment;
+      return comment;
+    }
+
+    async function getChatroomId(channel) {
+      const res = await fetch(`https://kick.com/api/v2/channels/${channel}`);
+      const data = await res.json();
+      return data.chatroom.id;
+    }
+
+    async function start(id) {
+      if (state[id].isRunning) return;
+      state[id].isRunning = true;
+
+      const tokens = document.getElementById(`tokens_${id}`).value.trim().split("\n").map(t => t.trim()).filter(Boolean);
+      const comments = document.getElementById(`comments_${id}`).value.trim().split("\n").map(c => c.trim()).filter(Boolean);
+      const channel = document.getElementById(`channel_${id}`).value.trim();
+      let interval = parseFloat(document.getElementById("interval").value);
+
+      if (!channel || tokens.length === 0 || comments.length === 0 || isNaN(interval) || interval < 0.1) {
+      alert("يرجى تعبئة جميع الحقول بشكل صحيح! ومدة التأخير يجب أن تكون 0.1 ثانية أو أكثر.");
+      isRunning = false;
+      return;
+    }
+
+      interval = interval * 1000;
+
+      try {
+        const chatroomId = await getChatroomId(channel);
+        log(`✅ Chatroom ID: ${chatroomId}`, id);
+
+        let index = 0;
+
+        state[id].intervalId = setInterval(() => {
+          if (!state[id].isRunning) return;
+
+          const token = tokens[index % tokens.length];
+          const comment = getRandomComment(comments, token, id);
+
+          fetch("https://kick.com/api/v1/chat-messages", {
+            method: "POST",
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: comment,
+              chatroom_id: chatroomId,
+            }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              log(`✅ [${index + 1}] Sent: "${comment}"`, id);
+            })
+            .catch((err) => {
+              log(`❌ Error: ${err.message}`, id);
+            });
+
+          index++;
+        }, interval);
+      } catch (error) {
+        log(`❌ خطأ في جلب Chatroom ID: ${error.message}`, id);
+        state[id].isRunning = false;
+      }
+    }
+
+    function stop(id) {
+      if (!state[id].isRunning) return;
+      clearInterval(state[id].intervalId);
+      state[id].isRunning = false;
+      log("⛔ تم الإيقاف.", id);
+    }
+  </script>
+</body>
+</html>
