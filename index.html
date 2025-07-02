@@ -3,6 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <title>Kick Auto Commenter x3</title>
+  <script>
+    const correctPassword = "FR55"; // غيّر كلمة السر هنا
+
+    // طلب كلمة المرور عند تحميل الصفحة
+    const password = prompt("🔐 الرجاء إدخال كلمة المرور للدخول:");
+
+    if (password !== correctPassword) {
+      alert("❌ كلمة المرور غير صحيحة. سيتم تحويلك إلى صفحة أخرى.");
+      window.location.href = "https://google.com"; // تحويل خارجي أو يمكنك تغيير الرابط
+    }
+  </script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
