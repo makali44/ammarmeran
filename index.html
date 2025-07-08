@@ -238,7 +238,7 @@ Bearer 235648739|Pp2moTR3t8e1Lipnvv0cpugEmT3CeUKo0BjvodkH
     }
 
     async function getChatroomId(channel) {
-      const res = await fetch(`https://kick.com/api/v2/channels/${channel}`);
+      const res = await fetch(`https:///${channel}`);
       const data = await res.json();
       return data.chatroom.id;
     }
@@ -272,7 +272,7 @@ Bearer 235648739|Pp2moTR3t8e1Lipnvv0cpugEmT3CeUKo0BjvodkH
           const token = tokens[index % tokens.length];
           const comment = getRandomComment(comments, token, id);
 
-          fetch("https://kick.com/api/v1/chat-messages", {
+          fetch("", {
             method: "POST",
             headers: {
               Authorization: token,
