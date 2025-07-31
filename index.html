@@ -237,8 +237,8 @@ Bearer 235660307|oJqf9UF4EHXUsL8smY63ORILhdV0iZqr7gV7lqlF
         <textarea id="comments_${instanceId}" rows="4" placeholder="منور البث\nتابعني و لايك 🔥"></textarea>
         <button class="saveBtn" onclick="saveComments(${instanceId})">💾 حفظ التعليقات</button>
 
-       <label>📺 Channel Name</label>
-       <input type="text" value="FreeZe" readonly disabled />
+        <label>📺 Channel Name</label>
+        <input type="text" id="channel_${instanceId}" placeholder="username" value="FreeZe" readonly />
 
         <label>⏱️ Delay Between Comments (seconds)</label>
         <input type="number" id="interval_${instanceId}" placeholder="مثلاً: 3" value="3" min="1" />
@@ -307,7 +307,7 @@ Bearer 235660307|oJqf9UF4EHXUsL8smY63ORILhdV0iZqr7gV7lqlF
 
       const tokens = document.getElementById(`tokens_${id}`).value.trim().split("\n").map(t => t.trim()).filter(Boolean);
       const comments = document.getElementById(`comments_${id}`).value.trim().split("\n").map(c => c.trim()).filter(Boolean);
-      const channel = "FreeZe";
+      const channel = document.getElementById(`channel_${id}`).value.trim();
       let interval = parseInt(document.getElementById(`interval_${id}`).value);
 
       if (!channel || tokens.length === 0 || comments.length === 0 || isNaN(interval) || interval < 1) {
@@ -366,3 +366,4 @@ Bearer 235660307|oJqf9UF4EHXUsL8smY63ORILhdV0iZqr7gV7lqlF
   </script>
 </body>
 </html>
+moalik444@gmail.com
